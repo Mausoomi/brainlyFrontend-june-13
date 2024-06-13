@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import Next from "../Assets/Images/arrow-down.png";
 import pervious from "../Assets/Images/arrow-up.png";
 import {
@@ -14,6 +13,12 @@ import {
   Get_Copy_brainQuest,
   Update_Copy_brainQuest,
 } from "../store/Slice/BrainQuestSlice";
+import "../Styles/Dashboard.css";
+import StarRating from "../Components/StarRating";
+import { submitRatings } from "../store/Actions/RatingAction";
+import Button from "../Components/Button";
+import CrossIcon from "../Assets/Images/Label.png";
+import "../Styles/AuthPage.css";
 
 function ProgressBar({ current, total }) {
   const progress = (current / total) * 100;
@@ -43,11 +48,7 @@ const BrainQuest = ({ questionsData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  // console.log(user);
-  // const id = user._id;
-  //   console.log( `StoryTitle : ${StoryTitle}`);
-
-  // const BrainQuestData = false;
+  console.log(user);
   const [questions, setquestions] = useState();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -61,12 +62,18 @@ const BrainQuest = ({ questionsData }) => {
   const BrainyUpdatedData = useSelector((state) => state.BrainQuest.data);
   const [updatedScore, setUpdatedScore] = useState(0);
   console.log("--------- BrainyUpdatedData -------- ", BrainyUpdatedData);
-  console.log(questionsData);
-  // console.log(BrainyUpdatedData[0].Question_id)
-  // let arrayWithSelectedAns = null;
-  const [arrayWithSelectedAns, setarrayWithSelectedAns] = useState(null);
 
-  // console.log(arrayWithSelectedAns )
+  const [closePopUp, setClosePopUp] = useState(false);
+
+  const [arrayWithSelectedAns, setarrayWithSelectedAns] = useState(null);
+  const [comment, setComment] = useState("");
+  const [wordRating, setWordRating] = useState(0);
+  const [storyRating, setStoryRating] = useState(0);
+  const [questionRating, setQuestionRating] = useState(0);
+  const [visitCount, setVisitCount] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log(user?.Children_Name);
+
   useEffect(() => {
     let Data = {
       StoryTitle: StoryTitle,
@@ -96,20 +103,11 @@ const BrainQuest = ({ questionsData }) => {
   }, [BrainyUpdatedData]);
 
   console.log(BrainyUpdatedData);
-  // useEffect(() => {
-  //   const GetData = {
-  //     StoryTitle: StoryTitle,
-  //     userID: user?._id,
-  //   };
-  //   dispatch(Get_BrainQuest_Data(GetData));
-  // }, []);
 
-  // console.log(questions);
   if (!questions || questions?.length === 0) {
     console.log(questions);
     return (
       <div className="text-white font-bold">
-        {/* You have Already Submitted the BrainQuestData for this Story. */}
         No questions available for this Story.{" "}
       </div>
     );
@@ -172,6 +170,7 @@ const BrainQuest = ({ questionsData }) => {
     } else {
       setShowScore(true);
       handleSubmit();
+      setClosePopUp(true);
     }
   };
 
@@ -195,63 +194,171 @@ const BrainQuest = ({ questionsData }) => {
     };
     // console.log(Data);
     await dispatch(Update_Copy_brainQuest(Data));
-
-    // toast.success("You have Created Your DailyQuiz");
-    // setTimeout(() => {
-    //   navigate("/ScienceFictionStories");
-    // }, 2000);
   };
 
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+
+    if (storyRating === 0 || wordRating === 0) {
+      setErrorMessage("Please rate both the quality of stories and words.");
+      return;
+    }
+    setErrorMessage(""); // Clear any existing errors if the submission is valid
+
+    const rating = { wordRating, storyRating, comment };
+    console.log(rating, ".....rating");
+    setClosePopUp(false);
+    dispatch(
+      submitRatings({
+        wordRating: wordRating,
+        storyRating: storyRating,
+        questionRating: questionRating,
+        comment: comment,
+        Student_id: user?._id,
+        StoryTitle: questionsData?.StoryTitle,
+      })
+    );
+  };
+
+  const handleForgotPasswordClose = (e) => {
+    e.preventDefault();
+    setClosePopUp(false);
+  };
+
+  console.log(closePopUp);
+  console.log({
+    wordRating: wordRating,
+    storyRating: storyRating,
+    questionRating: questionRating,
+    comment: comment,
+    Student_id:[user?._id],
+    StoryTitle: questionsData?.StoryTitle,
+  });
   return (
     <div className="quiz-container">
       {showScore ? (
-        <div className="score-container">
-          <p className="text-white pt-4 text-bold">
-            Your Score: {score}/{questions.length}
-          </p>
-          <div className="question-details">
-            <div className="correct-answers">
-              <h3 className="hdScroe font-bold">CORRECT ANSWERS</h3>
-              {questions.map((question, index) => {
-                if (questions[index].Answer === selectedAnswers[index]) {
-                  return (
-                    <div key={index} className="question-detail">
-                      <p className="selectedQue">{question.question}</p>
-                      <p className="seleCorr">
-                        Correct Answer: {question.Answer}
-                      </p>
-                      <p className="yourAns">
-                        Your Answer: {selectedAnswers[index]}
-                      </p>
-                      <hr />
-                    </div>
-                  );
-                }
-                return null;
-              })}
+        <div>
+          <div className="score-container">
+            <p className="text-white pt-4 text-bold">
+              Your Score: {score}/{questions.length}
+            </p>
+            <div className="question-details">
+              <div className="correct-answers">
+                <h3 className="hdScroe font-bold">CORRECT ANSWERS</h3>
+                {questions.map((question, index) => {
+                  if (questions[index].Answer === selectedAnswers[index]) {
+                    return (
+                      <div key={index} className="question-detail">
+                        <p className="selectedQue">{question.question}</p>
+                        <p className="seleCorr">
+                          Correct Answer: {question.Answer}
+                        </p>
+                        <p className="yourAns">
+                          Your Answer: {selectedAnswers[index]}
+                        </p>
+                        <hr />
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+              <div className="incorrect-answers">
+                <h3 className="hdScroeWrong font-bold">INCORRECT ANSWERS</h3>
+                {questions.map((question, index) => {
+                  if (
+                    questions[index].Answer !== selectedAnswers[index] &&
+                    selectedAnswers[index] !== null
+                  ) {
+                    return (
+                      <div key={index} className="question-detail">
+                        <p className="selectedQue">{question.question}</p>
+                        <p className="seleCorr">
+                          Correct Answer: {question.Answer}
+                        </p>
+                        <p className="yourAns">
+                          Your Answer: {selectedAnswers[index]}
+                        </p>
+                        <hr />
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
             </div>
-            <div className="incorrect-answers">
-              <h3 className="hdScroeWrong font-bold">INCORRECT ANSWERS</h3>
-              {questions.map((question, index) => {
-                if (
-                  questions[index].Answer !== selectedAnswers[index] &&
-                  selectedAnswers[index] !== null
-                ) {
-                  return (
-                    <div key={index} className="question-detail">
-                      <p className="selectedQue">{question.question}</p>
-                      <p className="seleCorr">
-                        Correct Answer: {question.Answer}
-                      </p>
-                      <p className="yourAns">
-                        Your Answer: {selectedAnswers[index]}
-                      </p>
-                      <hr />
+          </div>
+          <div className={`popup-backdrop ${closePopUp ? "flex" : "hidden"}`}>
+            <div className="popup">
+              <div>
+                <div className="flex justify-between items-center">
+                  <h1 className="font-poppins   SignText colorBlue ">
+                    Please Provide Valuable Feedback
+                  </h1>
+                  <button id="crossReview" onClick={handleForgotPasswordClose}>
+                    <img src={CrossIcon} alt="cross" />
+                    {/* <RxCross2 className="colorBlue" /> */}
+                  </button>
+                </div>
+
+                <form>
+                  <div className="flex flex-col sm:py-4 py-2">
+                    <label className=" font-poppins text-white userInfoText">
+                      Rate the Quality of Stories
+                    </label>
+                    <div>
+                      <StarRating
+                        totalStars={5}
+                        selectedStars={storyRating}
+                        onRating={setStoryRating}
+                      />
                     </div>
-                  );
-                }
-                return null;
-              })}
+                  </div>
+                  <div className="flex flex-col sm:py-4 py-2">
+                    <label className=" font-poppins text-white userInfoText">
+                      Rate the Quality of Words
+                    </label>
+                    <div>
+                      <StarRating
+                        totalStars={5}
+                        selectedStars={wordRating}
+                        onRating={setWordRating}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:py-4 py-2">
+                    <label className=" font-poppins text-white userInfoText">
+                      Rate the Quality of Questions
+                    </label>
+                    <div>
+                      <StarRating
+                        totalStars={5}
+                        selectedStars={questionRating}
+                        onRating={setQuestionRating}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:py-4 py-2">
+                    <textarea
+                      className="userInfoBox h-[100px]"
+                      name="comment"
+                      form="usrform"
+                      placeholder="Comment..."
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                  </div>
+                  {errorMessage && (
+                    <p className="error-message">{errorMessage}</p>
+                  )}
+                </form>
+                <div className="h-[50%]">
+                  <Button
+                    btnText="Submit"
+                    onClickFunction={handleReviewSubmit}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

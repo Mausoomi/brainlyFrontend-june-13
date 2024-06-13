@@ -250,19 +250,19 @@ const SignInPage = () => {
     //   isValid = false;
     // }
 
-    // if (password.trim() === "") {
-    //   setPasswordError("Password is required");
-    //   isValid = false;
-    // } else if (
-    //   !/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/.test(
-    //     password
-    //   )
-    // ) {
-    //   setPasswordError(
-    //     "Password must be 8 or more characters long and contain at least one letter, one number, and one special character"
-    //   );
-    //   isValid = false;
-    // }
+    if (password.trim() === "") {
+      setPasswordError("Password is required");
+      isValid = false;
+    } else if (
+      !/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/.test(
+        password
+      )
+    ) {
+      setPasswordError(
+        "Password must be 8 or more characters long and contain at least one letter, one number, and one special character"
+      );
+      isValid = false;
+    }
 
    
 

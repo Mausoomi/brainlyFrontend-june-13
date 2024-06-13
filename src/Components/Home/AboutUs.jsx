@@ -15,6 +15,8 @@ function AboutUs() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [Email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
+  const [emailError , setEmailerror] = useState("")
+  const [subjectError , setSubjectError]= useState("")
 
   const handleForgotPasswordClose = (e) => {
     e.preventDefault();
@@ -23,6 +25,29 @@ function AboutUs() {
   const handlePartnerClick = () => {
     setClosePopUp(true);
   };
+
+ const handleSave = () => {
+   // Validation for empty fields
+   if (!Email.trim()) {
+     setEmailerror("Email address is required.");
+     return;
+   }
+   if (!subject.trim()) {
+     setSubjectError("Subject is required.");
+     return;
+   }
+
+   // Email format validation using regular expression
+   const emailRegex =
+     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   if (!emailRegex.test(Email)) {
+     setEmailerror("Please enter a valid email address.");
+     return;
+   }
+
+   console.log("Form Submitted"); // Placeholder for actual submit logic
+ };
+
 
   return (
     <section className="justify-between sm:mt-8 mt-0  sm:py-14 py-4  px-4  max-md:px-5">
@@ -80,10 +105,10 @@ function AboutUs() {
                   type="Email"
                   value={Email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                   className="userInfoBox"
                 />
               </div>
+              {emailError && <p className="text-red-500">{emailError}</p>}
               <div className="flex flex-col sm:py-4 py-2">
                 <label className=" font-poppins text-white userInfoText">
                   Subject
@@ -92,10 +117,10 @@ function AboutUs() {
                   type="Email"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  required
                   className="userInfoBox"
                 />
               </div>
+              {subjectError && <p className="text-red-500">{subjectError}</p>}
               <div className="flex flex-col sm:py-4 py-2">
                 <textarea
                   className="userInfoBox h-[100px]"
@@ -106,7 +131,7 @@ function AboutUs() {
               </div>
             </form>
             <div>
-              <Button btnText="Submit" onClickFunction="" />
+              <Button btnText="Submit" onClickFunction={handleSave} />
             </div>
           </div>
           {/* <button className="cross" onClick={handleForgotPasswordClose}>

@@ -211,7 +211,7 @@ input.PhoneInputInput[type="tel"]::-moz-selection {
   padding: 1rem 3rem;
   /* border-image-source: linear-gradient(94.94deg, #FFFFFF -11.51%, #848484 97.43%); */
 
-  width: 37%;
+  width: 42%;
 
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

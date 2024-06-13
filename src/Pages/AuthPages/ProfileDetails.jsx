@@ -89,7 +89,7 @@ function ProfileDetails() {
             <li class="me-2">
               <div
                 href="#"
-                className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg  ${
+                className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg cursor-pointer ${
                   activeTab === 0
                     ? "text-blue-600 border-b-2 border-blue-600 dark:border-blue-500"
                     : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
@@ -102,7 +102,7 @@ function ProfileDetails() {
             <li class="me-2">
               <div
                 href="#"
-                className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg  ${
+                className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg  cursor-pointer ${
                   activeTab === 1
                     ? "text-blue-600 border-b-2 border-blue-600 dark:border-blue-500"
                     : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"

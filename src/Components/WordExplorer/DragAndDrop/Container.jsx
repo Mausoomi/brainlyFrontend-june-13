@@ -107,9 +107,11 @@ export const Container = memo(function Container({ Wordexplore }) {
       );
       console.log(dustbins, "--------------after ------");
       console.log(MatcheBoxCount, ",,,,,,,,,,,,,,,,,,,,matched count")
+
       if (MatcheBoxCount === boxLength) {
         setAllBoxesDropped(true);
       }
+      
     },
     [droppedBoxNames, dustbins, MatcheBoxCount, boxLength] // ensure all dependencies are declared
   );
