@@ -204,12 +204,14 @@ function NavBar({ scrollToRef }) {
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
-
+ if (localStorage.getItem("hasVisited") === "true") {
+   localStorage.setItem("hasVisited", "false");
+ }
     setIsMenuOpen(false);
     navigate("/");
  
     dispatch(async_removeuser());
-       localStorage.setItem("hasVisited", "false");
+       
   };
 
   const handleMenuClose = () => {
