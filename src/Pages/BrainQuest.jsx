@@ -196,7 +196,7 @@ const BrainQuest = ({ questionsData }) => {
     // console.log(Data);
     await dispatch(Update_Copy_brainQuest(Data));
 
-    toast.success("You have Created Your DailyQuiz");
+    // toast.success("You have Created Your DailyQuiz");
     // setTimeout(() => {
     //   navigate("/ScienceFictionStories");
     // }, 2000);

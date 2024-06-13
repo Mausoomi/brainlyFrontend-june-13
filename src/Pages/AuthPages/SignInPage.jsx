@@ -230,7 +230,7 @@ const SignInPage = () => {
   // };
   const validateInputs = () => {
     let isValid = true;
-    const normalizedEmail = email.trim().toLowerCase();
+    // const normalizedEmail = email.trim().toLowerCase();
 
  
 
@@ -242,26 +242,27 @@ const SignInPage = () => {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       setEmailError("Email address is invalid");
       isValid = false;
-    } else if (normalizedEmail.includes("admin")) {
-      setEmailError(
-        "You cannot sign up with this email. Please use a different email."
-      );
-      isValid = false;
-    }
+    } 
+    // else if (normalizedEmail.includes("admin")) {
+    //   setEmailError(
+    //     "You cannot sign up with this email. Please use a different email."
+    //   );
+    //   isValid = false;
+    // }
 
-    if (password.trim() === "") {
-      setPasswordError("Password is required");
-      isValid = false;
-    } else if (
-      !/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/.test(
-        password
-      )
-    ) {
-      setPasswordError(
-        "Password must be 8 or more characters long and contain at least one letter, one number, and one special character"
-      );
-      isValid = false;
-    }
+    // if (password.trim() === "") {
+    //   setPasswordError("Password is required");
+    //   isValid = false;
+    // } else if (
+    //   !/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/.test(
+    //     password
+    //   )
+    // ) {
+    //   setPasswordError(
+    //     "Password must be 8 or more characters long and contain at least one letter, one number, and one special character"
+    //   );
+    //   isValid = false;
+    // }
 
    
 

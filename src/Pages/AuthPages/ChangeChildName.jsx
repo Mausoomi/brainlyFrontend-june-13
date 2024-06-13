@@ -75,14 +75,14 @@ function ChangeChildName() {
   };
 
   return (
-    <div className="w-[80%] signInBox2">
+    <div className="w-[80%] py-4 signInBox2">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col sm:py-4 py-2">
           <label className=" font-poppins text-white userInfoText">
             User Name
           </label>
           <input
-            className="text-gray-300 userInfoBox"
+            className=" text-slate-500 userInfoBox"
             name="Username"
             value={formData.Username}
             disabled
@@ -94,7 +94,7 @@ function ChangeChildName() {
           </label>
           <input
             type="email"
-            className=" text-gray-300 userInfoBox"
+            className=" text-slate-500 userInfoBox"
             name="Email"
             value={formData.Email}
             disabled

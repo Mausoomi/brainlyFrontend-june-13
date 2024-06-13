@@ -96,7 +96,7 @@ function ProfileDetails() {
                 }`}
                 onClick={() => handleTabClick(0)}
               >
-                Change Child Name
+                Change the child's name
               </div>
             </li>
             <li class="me-2">
@@ -109,7 +109,7 @@ function ProfileDetails() {
                 }`}
                 onClick={() => handleTabClick(1)}
               >
-                Change Password
+                Change password
               </div>
             </li>
           </ul>
@@ -119,8 +119,6 @@ function ProfileDetails() {
         {activeTab === 0 && <ChangeChildName />}
         {activeTab === 1 && <ChangePassword />}
       </div>
-
-      
     </div>
   );
 }

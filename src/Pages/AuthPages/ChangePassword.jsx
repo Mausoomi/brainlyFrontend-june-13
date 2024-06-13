@@ -304,7 +304,7 @@ function ChangePassword() {
         <div className="  items-center text-white gap-4">
           <div className="w-[100%] text-white py-2">
             <Button
-              btnText="Submit"
+              btnText="Save"
               type="submit"
               onClickFunction={handleSubmit}
             />

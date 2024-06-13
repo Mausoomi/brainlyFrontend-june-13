@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Logo2 from "../Assets/Images/logo2.png";
@@ -22,6 +22,7 @@ function NavBar({ scrollToRef }) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const LoggedIn = isAuthenticated;
+  const dropdownRef = useRef(null);
   console.log(user);
   const capitalizeFirstLetter = (name) => {
     if (!name) return "";
@@ -190,12 +191,23 @@ function NavBar({ scrollToRef }) {
     setSignBtnBg(false);
   };
 
-  // const handleLogin = () => {
-  //   setLoggedIn(!LoggedIn)
-  //   navigate("/ScienceFictionStories")
-  //   setIsMenuOpen(false)
-  //   console.log(LoggedIn)
-  // }
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+        setOpenSettingMenu(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -204,9 +216,9 @@ function NavBar({ scrollToRef }) {
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
- if (localStorage.getItem("hasVisited") === "true") {
-   localStorage.setItem("hasVisited", "false");
- }
+
+   localStorage.setItem("hasVisited", "");
+ 
     setIsMenuOpen(false);
     navigate("/");
  
@@ -341,7 +353,10 @@ function NavBar({ scrollToRef }) {
                     </div>
                     {openSettingMenu ? (
                       <>
-                        <div className="  bg-[#03051B] bg-opacity-50  SettingBox">
+                        <div
+                          className="  bg-[#03051B] bg-opacity-50  SettingBox"
+                          ref={dropdownRef}
+                        >
                           <p onClick={ProfileSetting}>
                             <Link to="/ProfileDetails">Profile & Setting</Link>
                           </p>

@@ -8,23 +8,22 @@ import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import StarRating from "../StarRating";
 import { useState } from "react";
-import CrossIcon from "../../Assets/Images/Label.png"
+import CrossIcon from "../../Assets/Images/Label.png";
 
 function AboutUs() {
-    const [closePopUp, setClosePopUp] = useState(false);
+  const [closePopUp, setClosePopUp] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-   const [Email, setEmail] = useState("");
+  const [Email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
 
-   const handleForgotPasswordClose = (e) => {
-     e.preventDefault();
-     setClosePopUp(false);
-   };
-  const handlePartnerClick = ()=>{
-    setClosePopUp(true)
-  }
-  
-  
-  
+  const handleForgotPasswordClose = (e) => {
+    e.preventDefault();
+    setClosePopUp(false);
+  };
+  const handlePartnerClick = () => {
+    setClosePopUp(true);
+  };
+
   return (
     <section className="justify-between sm:mt-8 mt-0  sm:py-14 py-4  px-4  max-md:px-5">
       <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -60,7 +59,9 @@ function AboutUs() {
         <div className="popup">
           <div>
             <div className="flex justify-between">
-              <h1 className="font-poppins   SignText colorBlue ">Contact</h1>
+              <h1 className="font-poppins   SignText colorBlue ">
+                Partner with us
+              </h1>
               <button id="crossReview" onClick={handleForgotPasswordClose}>
                 <img src={CrossIcon} alt="cross" />
                 {/* <RxCross2 className="colorBlue" /> */}
@@ -89,8 +90,8 @@ function AboutUs() {
                 </label>
                 <input
                   type="Email"
-                  value={Email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
                   required
                   className="userInfoBox"
                 />
@@ -107,7 +108,6 @@ function AboutUs() {
             <div>
               <Button btnText="Submit" onClickFunction="" />
             </div>
-            
           </div>
           {/* <button className="cross" onClick={handleForgotPasswordClose}>
             <RxCross2 />

@@ -48,9 +48,13 @@ function DashBoard() {
   useEffect(() => {
     dispatch(Get_Weekly_Performance_of_Student_All(user._id));
     dispatch(Get_Count_Student(user._id));
-    localStorage.setItem("hasVisited", "true");
+  
     console.log("Setting hasVisited in localStorage");
-  }, [dispatch, user._id, closePopUp]);
+  }, [dispatch, user._id]);
+
+  useEffect(()=>{
+  localStorage.setItem("hasVisited", "true");
+  },[])
 
   const userData = AllDashboardData?.filter(
     (ele) => ele.StudentId._id === user._id
